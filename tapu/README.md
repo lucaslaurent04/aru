@@ -1,5 +1,19 @@
 # Host backup
 
+<!-- TOC -->
+* [Host backup](#host-backup)
+  * [Purpose](#purpose)
+  * [Features](#features)
+  * [Important Note](#important-note)
+  * [Installation](#installation)
+  * [Usage](#usage)
+  * [Routes explanation](#routes-explanation)
+    * [``/token`` :](#token-)
+    * [``/token-release`` :](#token-release-)
+    * [``/instance/backups`` :](#instancebackups-)
+    * [``/status`` :](#status-)
+<!-- TOC -->
+
 ## Purpose
 
 The repository is a PHP web server for handling backups of B2 private cloud instances.
@@ -42,10 +56,18 @@ curl -X POST http://<host-backup-server-ip>:8000/<your-desired-route>
 
 The host backup server provides the following routes:
 
-### ``/token``
+### ``/token`` :
 
 In progress
 
-### ``/token-release``
+### ``/token-release`` :
+
+In progress
+
+### ``/instance/backups`` :
+
+In progress
+
+### ``/status`` :
 
 In progress

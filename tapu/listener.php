@@ -10,6 +10,7 @@ try {
     $allowed_routes = [
         '/token',
         '/token-release',
+        '/instance_backups',
     ];
 
     // By convention, we accept only POST requests
