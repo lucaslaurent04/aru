@@ -7,10 +7,7 @@ $code = 200;
 $message = '';
 
 try {
-    $allowed_routes = [
-        '/token',
-        '/token-release',
-    ];
+    $allowed_routes = [];
 
     // By convention, we accept only POST requests
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
