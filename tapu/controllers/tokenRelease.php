@@ -2,6 +2,7 @@
 
 /**
  * Release the token of a given instance.
+ * ! Not sure
  *
  * @param array{JWT: string, instance: string} $data
  * @return array{code: int, message: string}

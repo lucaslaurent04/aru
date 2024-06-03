@@ -2,6 +2,7 @@
 
 /**
  * Retrieve a list of backups for a given instance.
+ * Todo: backup files path can be changed in the future when clarification is provided
  *
  * @param array{instance: string} $data
  * @return array{status_code: int, message: string[]}

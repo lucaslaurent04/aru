@@ -4,7 +4,7 @@
 * [Host stats](#host-stats)
   * [Purpose](#purpose)
   * [Features](#features)
-  * [Important Note](#important-note)
+  * [Important note](#important-note)
   * [Installation](#installation)
   * [Usage](#usage)
   * [Routes explanation](#routes-explanation)
@@ -65,7 +65,7 @@ The Host Stats server offers the following features:
 8. **Error Handling**: Implements robust error handling mechanisms to manage invalid requests, unknown routes, and other
    potential issues gracefully.
 
-## Important Note
+## Important note
 
 This repository should be placed in the ``/root`` folder of your server.
 

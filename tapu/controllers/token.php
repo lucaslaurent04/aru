@@ -2,6 +2,7 @@
 
 /**
  * Ask for a backup token.
+ * ! Not sure
  *
  * @param array{JWT: string, instance: string} $data
  * @return array{

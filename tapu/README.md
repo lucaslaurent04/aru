@@ -5,6 +5,7 @@
   * [Purpose](#purpose)
   * [Features](#features)
   * [Important Note](#important-note)
+    * [Developer note](#developer-note)
   * [Installation](#installation)
   * [Usage](#usage)
   * [Routes explanation](#routes-explanation)
@@ -60,6 +61,12 @@ instances using the eQual framework.
 
 This repository should be placed in the ``/root`` folder of your server.
 
+### Developer note
+
+- Currently, the path list of instances backups is ``'/home/backups/' + instance name``
+- The path of the backup JWT is ``/home/status/jwt.txt``
+- The path of the register of instance tokens for backups is ``/home/aru/tapu/backup_tokens.json``
+
 ## Installation
 
 To install the host backup server, follow these steps:
@@ -104,8 +111,8 @@ backup token based on the provided data. The script performs the following tasks
    code `500`.
 4. **Manage Backup Tokens File:** Manages the `backup_tokens.json` file located at `/home/aru/tapu/backup_tokens.json`:
     - Opens the file and acquires an exclusive lock to prevent concurrent access.
-    - Reads the file content and decodes it as JSON.
-    - Adds the newly created backup token to the list of tokens.
+    - Read the file content and decode it as JSON.
+    - Add the newly created backup token to the list of tokens.
     - Encodes the updated content back to JSON and writes it to the file, truncating the file first to ensure it is
       properly updated.
     - Releases the lock and closes the file.

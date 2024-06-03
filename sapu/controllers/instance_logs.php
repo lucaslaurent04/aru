@@ -2,6 +2,7 @@
 
 /**
  * Retrieve a list of logs for a given instance based on some criteria.
+ * Todo: need to be implemented
  *
  * @param array{
  *     instance: string,
