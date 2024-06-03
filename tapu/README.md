@@ -103,13 +103,12 @@ backup token based on the provided data. The script performs the following tasks
    backup token using the `AES-256-CBC` encryption method. If the encryption fails, it throws an exception with a status
    code `500`.
 4. **Manage Backup Tokens File:** Manages the `backup_tokens.json` file located at `/home/aru/tapu/backup_tokens.json`:
-
-- Opens the file and acquires an exclusive lock to prevent concurrent access.
-- Reads the file content and decodes it as JSON.
-- Adds the newly created backup token to the list of tokens.
-- Encodes the updated content back to JSON and writes it to the file, truncating the file first to ensure it is properly
-  updated.
-- Releases the lock and closes the file.
+    - Opens the file and acquires an exclusive lock to prevent concurrent access.
+    - Reads the file content and decodes it as JSON.
+    - Adds the newly created backup token to the list of tokens.
+    - Encodes the updated content back to JSON and writes it to the file, truncating the file first to ensure it is
+      properly updated.
+    - Releases the lock and closes the file.
 
 5. **Create User and Set Credentials:** Escapes the input data to prevent shell injection and executes shell commands to
    create a new user with a `nologin` shell and set the user's password to the created backup token.
@@ -243,22 +242,30 @@ encryption errors.
 
 #### Purpose
 
-The `instance/backups` endpoint facilitates the retrieval of a list of backup files for a specified user instance. This endpoint is designed to handle POST requests containing the necessary data to identify the instance whose backups are to be retrieved.
+The `instance/backups` endpoint facilitates the retrieval of a list of backup files for a specified user instance. This
+endpoint is designed to handle POST requests containing the necessary data to identify the instance whose backups are to
+be retrieved.
 
 #### Script process task
 
-The `instance_backups` function, defined within the PHP script associated with this endpoint, implements the logic for retrieving a list of backup files for a user instance based on the provided data. The script performs the following tasks:
+The `instance_backups` function, defined within the PHP script associated with this endpoint, implements the logic for
+retrieving a list of backup files for a user instance based on the provided data. The script performs the following
+tasks:
 
-1. **Validate Request Data:** Checks if the `instance` key exists in the input data array and is properly set. If not, it returns a status code `400` indicating a bad request.
-2. **Retrieve Backup Files:** Uses the `scandir` function to retrieve a list of files in the backup directory of the specified user instance located at `/home/backups/$instance`.
+1. **Validate Request Data:** Checks if the `instance` key exists in the input data array and is properly set. If not,
+   it returns a status code `400` indicating a bad request.
+2. **Retrieve Backup Files:** Uses the `scandir` function to retrieve a list of files in the backup directory of the
+   specified user instance located at `/home/backups/$instance`.
 3. **Remove Unnecessary Entries:** Removes the `.` and `..` entries from the list of files.
-4. **Return Backups List:** Returns a response array with a status code `201` and a message containing the list of backup files.
+4. **Return Backups List:** Returns a response array with a status code `201` and a message containing the list of
+   backup files.
 
 #### Usage
 
 To retrieve a list of backups for a user instance using the `instance/backups` endpoint:
 
-Send a POST request to the endpoint with the identifier of the instance in the request body. Handle the HTTP response to access the list of backup files for the user instance.
+Send a POST request to the endpoint with the identifier of the instance in the request body. Handle the HTTP response to
+access the list of backup files for the user instance.
 
 ##### Request parameters
 
@@ -295,15 +302,19 @@ Content-Type: application/json
 
 #### Purpose
 
-The `status` endpoint facilitates the retrieval of the current status of the system, particularly focusing on disk usage. This endpoint is designed to handle POST requests and returns a summary of the total and remaining disk space.
+The `status` endpoint facilitates the retrieval of the current status of the system, particularly focusing on disk
+usage. This endpoint is designed to handle POST requests and returns a summary of the total and remaining disk space.
 
 #### Script process task
 
-The `status` function, defined within the PHP script associated with this endpoint, implements the logic for retrieving the system status based on the provided data. The script performs the following tasks:
+The `status` function, defined within the PHP script associated with this endpoint, implements the logic for retrieving
+the system status based on the provided data. The script performs the following tasks:
 
-1. **Execute Command:** Executes shell commands to retrieve system status information, particularly focusing on disk space usage.
+1. **Execute Command:** Executes shell commands to retrieve system status information, particularly focusing on disk
+   space usage.
 2. **Adapt Units:** Adapts the units of the output from the commands to a more user-friendly format.
-3. **Return Status:** Returns a response array with a status code `201` and a message containing the formatted system status information.
+3. **Return Status:** Returns a response array with a status code `201` and a message containing the formatted system
+   status information.
 
 #### Usage
 

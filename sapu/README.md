@@ -26,9 +26,44 @@
 
 ## Purpose
 
+The purpose of the Host Stats server is to provide an efficient and centralized way to manage and monitor the log files
+and system status of various user instances within a B2 private cloud environment.
+This server allows for the retrieval of log files based on specific criteria,
+such as date range, log level, and log layer, as well as providing current
+system status information like total and remaining disk space.
 
+By implementing this server, administrators can easily access important logs for troubleshooting and maintenance, and
+monitor system resources to ensure optimal performance and uptime of the cloud instances.
 
 ## Features
+
+The Host Stats server offers the following features:
+
+1. **Log Retrieval**: Allows administrators to retrieve log files for specific user instances based on various filter
+   criteria such as date range, log level, log layer, and keywords.
+   This feature helps in effective troubleshooting and monitoring.
+
+2. **System Status Monitoring**: Provides an endpoint to fetch current system status information, particularly focusing
+   on disk usage.
+   This helps in keeping track of total and remaining disk space to ensure optimal resource management.
+
+3. **Centralized Management**: Enables centralized handling of logs and system status for multiple instances in a B2
+   private cloud environment, simplifying the administration and maintenance tasks.
+
+4. **RESTful API**: Utilizes a RESTful API approach with endpoints designed to handle POST requests, ensuring easy
+   integration with other systems and tools.
+
+5. **Customizable Filters**: Offers customizable filters for log retrieval, allowing precise and relevant data
+   extraction based on specific needs.
+
+6. **Automated Installation and Setup**: Includes an installation script (`install.sh`) to automate the setup process of
+   the server and service, making deployment quick and easy.
+
+7. **Persistent Service**: Configured to run as a persistent service using systemd, ensuring that the host stats
+   listener is always active and ready to handle incoming requests.
+
+8. **Error Handling**: Implements robust error handling mechanisms to manage invalid requests, unknown routes, and other
+   potential issues gracefully.
 
 ## Important Note
 
@@ -43,8 +78,8 @@ To install the host stats server, follow these steps:
 
 ## Usage
 
-The host stats server uses a ``listener.php`` script to handle the stats process.
-The script listens for incoming requests from the B2 private cloud instances and initiates the stats process.
+The host stats server uses a ``listener.php`` script to handle the stat process.
+The script listens for incoming requests from the B2 private cloud instances and initiates the stat process.
 
 To use the host stats server, call it from the B2 private cloud instance using the following command:
 
