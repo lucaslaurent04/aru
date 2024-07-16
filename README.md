@@ -1,6 +1,12 @@
-# aru
+# Aru (arû = attic, warehouse)
 
-## Charts
+This repository hosts the installation scripts and documentation for 3 types of hosts that support B2 instances:
+
+* host-admin (seru): to manipulate instances (CRUD) and B2 hosts
+* host-backup (tapu): to store instance backups
+* host-stats (sapu): to retain log history and track instance statistics
+
+## Visual recap
 
 For a better understanding of the system, the following charts provide an overview of the key components and their
 interactions:
