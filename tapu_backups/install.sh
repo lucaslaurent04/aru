@@ -63,11 +63,11 @@ cp "$INSTALL_DIR"/conf/etc/vsftpd.conf /etc/vsftpd.conf
 # Restart FTP service
 systemctl restart vsftpd
 
-#######################
-### Install php-cli ###
-#######################
+###############################
+### Install needed packages ###
+###############################
 
-apt-get install -y php-cli
+apt-get install -y vnstat php-cli
 
 
 ########################

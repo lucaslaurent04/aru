@@ -185,8 +185,6 @@ function status(): array {
         ]
     ];
 
-    throw new Exception('test00');
-
     $result = [];
     foreach($commands as $cat => $cat_commands) {
         foreach($cat_commands as $cmd => $command) {
