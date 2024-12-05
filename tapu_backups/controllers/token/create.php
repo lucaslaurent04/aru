@@ -72,7 +72,10 @@ function token_create(array $data): array {
         'code' => 201,
         'body' => [
             'token'         => $token,
-            'credentials'   => compact('username', 'password')
+            'credentials'   => [
+                'username'      => $data['instance'],
+                'password'      => $password
+            ]
         ]
     ];
 }
