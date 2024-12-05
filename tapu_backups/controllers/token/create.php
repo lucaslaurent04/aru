@@ -37,9 +37,7 @@ function token_create(array $data): array {
     // Remove the '.' and '..'
     $tokens = array_values(array_diff($tokens, ['.', '..']));
 
-    throw new Exception('token: '.json_encode(getenv('MAX_TOKEN')));
-
-    if($tokens >= getenv('MAX_TOKEN')) {
+    if($tokens >= intval(getenv('MAX_TOKEN'))) {
         throw new InvalidArgumentException("max_token_reached_try_later", 400);
     }
 
