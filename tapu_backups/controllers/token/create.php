@@ -32,7 +32,7 @@ function token_create(array $data): array {
     $instance = $data['instance'];
 
     // Retrieve the list files in tokens directory
-    $tokens = scandir(BASE_DIR.'/tokens');
+    $tokens = scandir(TOKENS_DIR);
 
     // Remove the '.' and '..'
     $tokens = array_values(array_diff($tokens, ['.', '..', '.gitignore']));
@@ -49,7 +49,7 @@ function token_create(array $data): array {
     $token_data = compact('token', 'created_at', 'instance');
 
     // Create file to persist the token
-    file_put_contents(BASE_DIR."/tokens/$instance.json", json_encode($token_data));
+    file_put_contents(TOKENS_DIR."/$instance.json", json_encode($token_data));
 
     // Create a new system user with no shell access (for FTP use)
     $instance_escaped = escapeshellarg($data['instance']);

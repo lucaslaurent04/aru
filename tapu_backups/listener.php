@@ -75,6 +75,7 @@ try {
     }
 
     define('BASE_DIR', __DIR__);
+    define('TOKENS_DIR', __DIR__.'/tokens');
 
     load_env(BASE_DIR . '/.env');
 
