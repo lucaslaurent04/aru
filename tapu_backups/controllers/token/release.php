@@ -45,6 +45,7 @@ function token_release(array $data): array {
 
     // Remove file
     exec('rm '.BASE_DIR.'/tokens/'.$instance_escaped);
+    throw new Exception('rm '.BASE_DIR.'/tokens/'.$instance_escaped);
 
     return [
         'code' => 200,
