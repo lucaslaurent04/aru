@@ -2,12 +2,14 @@
 
 # Default values
 BACKUP_DISK="/dev/sdb"
+BACKUP_DISK_MOUNT="/mnt/backups"
 
 # Function to display help
 flags_help() {
     echo "Usage: script.sh [options]"
     echo "Options:"
-    echo "  --backup_disk, -w <path>  Specify backups disk name."
+    echo "  --backup_disk,       -d <disk>  Specify backups disk name. (default: /dev/sdb)"
+    echo "  --backup_disk_mount, -m <path>  Specify backups disk mount directory name. (default: /mnt/backups)"
     echo "  --help, -h                Show help message."
     exit 0
 }
@@ -15,13 +17,20 @@ flags_help() {
 # Parse options
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        --backup_disk|-w )
+        --backup_disk|-d )
             BACKUP_DISK="$2"
             if [[ -z "BACKUP_DISK" ]]; then
                 echo "Error: --backup_disk requires a value."
                 exit 1
             fi
-            shift ;;  # Skip the value
+            shift ;;
+        --backup_disk_mount|-m )
+            BACKUP_DISK_MOUNT="$2"
+            if [[ -z "BACKUP_DISK_MOUNT" ]]; then
+                echo "Error: --backup_disk_mount requires a value."
+                exit 1
+            fi
+            shift ;;
         --help|-h )
             flags_help ;;
         * )
@@ -31,22 +40,32 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
+# Create .env file
+if [ ! -f "$INSTALL_DIR/.env" ]; then
+    touch "$INSTALL_DIR/.env"
+    echo "BACKUP_DISK=$BACKUP_DISK" >> "$INSTALL_DIR/.env"
+    echo "BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT" >> "$INSTALL_DIR/.env"
+else
+    grep -q "BACKUP_DISK=$BACKUP_DISK" "$INSTALL_DIR/.env" || echo "BACKUP_DISK=$BACKUP_DISK" >> "$INSTALL_DIR/.env"
+    grep -q "BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT" "$INSTALL_DIR/.env" || echo "BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT" >> "$INSTALL_DIR/.env"
+fi
 
-##########################
-### Mount /mnt/backups ###
-##########################
+
+#########################
+### Mount backup disk ###
+#########################
 
 # Create backups directory
-mkdir /mnt/backups
+mkdir $BACKUP_DISK_MOUNT
 
 # Format disk to ext filesystem
 mkfs -t ext4 $BACKUP_DISK
 
 # Handle auto mount on startup
-echo "$BACKUP_DISK	/mnt/backups	ext4	defaults	0	0" >> /etc/fstab
+echo "$BACKUP_DISK	$BACKUP_DISK_MOUNT	ext4	defaults	0	0" >> /etc/fstab
 
 # Mount disk
-mount /mnt/backups
+mount $BACKUP_DISK_MOUNT
 
 
 ##########################
