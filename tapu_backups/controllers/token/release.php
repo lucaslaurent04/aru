@@ -8,9 +8,7 @@
  * @return array{code: int, message: string}
  * @throws Exception
  */
-
-function tokenRelease(array $data): array
-{
+function token_release(array $data): array {
     $status_code = 201;
     $message = '';
 

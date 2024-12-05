@@ -23,10 +23,10 @@ function load_env(string $file) {
 }
 
 $allowed_routes = [
-    '/token',
-    '/token-release',
-    '/instance/backups',
-    '/status',
+    '/status',              /* @link status() */
+    '/instance/backups',    /* @link instance_backups() */
+    '/token/create',        /* @link token_create() */
+    '/token/release'        /* @link token_release() */
 ];
 
 try {

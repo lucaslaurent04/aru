@@ -16,7 +16,7 @@
  * }
  * @throws Exception
  */
-function token(array $data): array {
+function token_create(array $data): array {
     if(!isset($data['instance'])) {
         throw new InvalidArgumentException("missing_instance", 400);
     }
