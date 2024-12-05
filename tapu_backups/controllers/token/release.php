@@ -44,8 +44,7 @@ function token_release(array $data): array {
     exec("userdel $username");
 
     // Remove file
-    exec('rm '.BASE_DIR.'/tokens/'.$instance_escaped);
-    throw new Exception('rm '.BASE_DIR.'/tokens/'.$instance_escaped);
+    exec('rm '.BASE_DIR.'/tokens/'.trim($instance_escaped, "'").'.json');
 
     return [
         'code' => 200,
