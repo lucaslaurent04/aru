@@ -2,7 +2,6 @@
 
 /**
  * Returns host status statistics.
- * body.config.ip_* can be false if interfaces names are not ens3 (protected), veth0 (public) and ens4 (private).
  *
  * @return array{
  *     code: int,
@@ -32,13 +31,14 @@
  *             cpu_qty: string,
  *             cpu_freq: string,
  *             disk: string,
- *             ip_private: string|false
+ *             ip_private: string
  *         }
  *     }
  * }
  * @throws Exception
  */
 function status(): array {
+    throw new Exception('test');
     $do_cmd = function ($command) {
         $result = null;
         if(exec($command, $output) !== false) {
@@ -178,7 +178,7 @@ function status(): array {
             ],
             'ip_private' => [
                 'description' => "main IP address",
-                'command'     => 'ip -4 addr show ens3 | grep \'inet \' | awk \'{print $2}\'',
+                'command'     => 'ip -4 addr show ' . $interface . ' | grep \'inet \' | awk \'{print $2}\'',
                 'adapt'       => function ($res) {
                     return $res;
                 }
