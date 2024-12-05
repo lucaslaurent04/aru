@@ -43,8 +43,8 @@ function token_release(array $data): array {
     $username = $instance_escaped;
     exec("userdel $username");
 
-    // Remove file
-    exec('rm '.BASE_DIR.'/tokens/'.trim($instance_escaped, "'").'.json');
+    // Remove token file
+    exec('rm '.BASE_DIR.'/tokens/'.escapeshellarg($data['instance'].'.json'));
 
     return [
         'code' => 200,
