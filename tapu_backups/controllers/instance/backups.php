@@ -9,16 +9,16 @@
  */
 function instance_backups(array $data): array {
     // Retrieve the list files contained in a folder
-    $backups = scandir('/home/backups/'.$data['instance']);
-    if($backups === false) {
+    $instance_backups = scandir(getenv('BACKUPS_DISK_MOUNT').'/'.$data['instance']);
+    if($instance_backups === false) {
         throw new Exception("backups_not_found", 404);
     }
 
-    // Remove the '.' and '..' and 'ubuntu' and 'docker' entries
-    $backups = array_values(array_diff($backups, ['.', '..', 'ubuntu', 'docker']));
+    // Remove the '.' and '..'
+    $instance_backups = array_values(array_diff($instance_backups, ['.', '..']));
 
     return [
         'code' => 200,
-        'body' => $backups
+        'body' => $instance_backups
     ];
 }
