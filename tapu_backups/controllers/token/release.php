@@ -38,7 +38,7 @@ function token_release(array $data): array {
         throw new InvalidArgumentException("invalid_token", 400);
     }
 
-    // Remove system user with no shell access (for FTP use)
+    // Remove system user with no shell access (for FTP use) (keep home directory)
     $instance_escaped = escapeshellarg($data['instance']);
     $username = $instance_escaped;
     exec("userdel $username");
