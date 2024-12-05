@@ -3,6 +3,25 @@
 // Include the http-response.php file to use the send_http_response function
 include_once '../helpers/http-response.php';
 
+function load_env(string $file) {
+    if(!file_exists($file)) {
+        throw new Exception("listener_dot_env_file_does_not_exist", 500);
+    }
+
+    $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue;
+        }
+
+        $line = trim($line);
+        list($key, $value) = explode('=', $line, 2);
+
+        putenv(trim($key) . '=' . trim($value));
+    }
+}
+
 $allowed_routes = [
     '/token',
     '/token-release',
@@ -37,12 +56,7 @@ try {
     }
 
     $handler = trim($_SERVER['REQUEST_URI'], '/');
-    $handler = str_replace('/', '_', $handler);
-    $handler = preg_replace_callback('/-./', function ($matches) {
-        return strtoupper($matches[0][1]);
-    }, $handler);
 
-    // Define the controller file path
     $controller_file = __DIR__ . '/controllers/' . $handler . '.php';
 
     // Check if the controller or script file exists
@@ -61,6 +75,8 @@ try {
     }
 
     define('BASE_DIR', __DIR__);
+
+    load_env(BASE_DIR . '/.env');
 
     // Respond with the returned body and code
     ['body' => $body, 'code' => $code] = $handler_method_name($data);

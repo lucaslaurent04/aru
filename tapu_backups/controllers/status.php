@@ -209,6 +209,12 @@ function status(): array {
         }
     }
 
+    $result['config']['env'] = [];
+    $env_vars = ['BACKUPS_DISK_MOUNT'];
+    foreach ($env_vars as $var) {
+        $result['config']['env'][$var] = getenv($var) ?? "not_configured";
+    }
+
     return [
         'code' => 200,
         'body' => $result
