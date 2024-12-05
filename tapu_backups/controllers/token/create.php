@@ -63,6 +63,7 @@ function token_create(array $data): array {
 
     // Set the user's home directory
     $home_directory = getenv('BACKUPS_DISK_MOUNT').'/'.$instance_escaped;
+    exec("mkdir $home_directory");
     exec("usermod -d $home_directory $username");
 
     // Set proper permissions
