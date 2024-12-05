@@ -14,7 +14,8 @@
  *                 avg_rate: string,
  *             }|false,
  *             cpu: string,
- *             uptime: string
+ *             uptime: string,
+ *             backup_tokens_qty: int
  *         },
  *         instant: array{
  *             total_proc: string,
@@ -147,7 +148,7 @@ function status(): array {
                 'description' => "total number of currently issued backup tokens",
                 'command'     => 'find ' . BASE_DIR . '/tokens -type f ! -name ".gitignore" | wc -l',
                 'adapt'       => function ($res) {
-                    return $res;
+                    return (int) $res;
                 }
             ]
         ],
