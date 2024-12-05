@@ -38,7 +38,6 @@
  * @throws Exception
  */
 function status(): array {
-    throw new Exception('test');
     $do_cmd = function ($command) {
         $result = null;
         if(exec($command, $output) !== false) {
@@ -193,6 +192,8 @@ function status(): array {
             $result[$cat][$cmd] = $command['adapt']($res);
         }
     }
+
+    throw new Exception('test1');
 
     return [
         'code' => 200,
