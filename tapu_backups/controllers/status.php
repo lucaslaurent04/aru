@@ -93,8 +93,8 @@ function status(): array {
                 }
             ],
             'backups_disk' => [
-                'description' => "percentage of usage for /mnt/backups",
-                'command'     => 'df -h /mnt/backups | awk \'NR==2 {print $5}\'',
+                'description' => "percentage of usage backups disk",
+                'command'     => 'df -h ' . getenv('BACKUPS_DISK_MOUNT') . ' | awk \'NR==2 {print $5}\'',
                 'adapt'       => function ($res) {
                     return $res;
                 }
