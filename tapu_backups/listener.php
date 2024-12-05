@@ -3,17 +3,14 @@
 // Include the http-response.php file to use the send_http_response function
 include_once '../helpers/http-response.php';
 
-$code = 200;
-$message = '';
+$allowed_routes = [
+    '/token',
+    '/token-release',
+    '/instance/backups',
+    '/status',
+];
 
 try {
-    $allowed_routes = [
-        '/token',
-        '/token-release',
-        '/instance/backups',
-        '/status',
-    ];
-
     // By convention, we accept only POST requests
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new Exception("method_not_allowed", 405);
@@ -56,18 +53,21 @@ try {
     // Include the controller file
     include_once $controller_file;
 
+    $handler_method_name = preg_replace('/[-\/]/', '_', $handler);
+
     // Call the controller function with the request data
-    if (!is_callable($handler)) {
+    if(!is_callable($handler_method_name)) {
         throw new Exception("missing_method", 501);
     }
 
-    $result = $handler($data);
-    list($message, $code) = [$result['message'], $result['code']];
+    define('BASE_DIR', __DIR__);
+
+    // Respond with the returned body and code
+    ['body' => $body, 'code' => $code] = $handler_method_name($data);
 } catch (Exception $e) {
     // Respond with the exception message and status code
-    $message = $e->getMessage();
-    $code = $e->getCode();
+    [$body, $code] = [$e->getMessage(), $e->getCode()];
 }
 
-// Respond with the exception message and status code
-send_http_response($message, $code);
+// Send response with body and code
+send_http_response($body, $code);
