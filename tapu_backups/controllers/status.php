@@ -60,13 +60,6 @@ function status(): array {
 
     $commands = [
         'stats' => [
-            'backups_disk' => [
-                'description' => "percentage of usage for /mnt/backups",
-                'command'     => 'df -h /mnt/backups | awk \'NR==2 {print $5}\'',
-                'adapt'       => function ($res) {
-                    return $res;
-                }
-            ],
             'net' => [
                 'description' => "monthly network volume",
                 'command'     => 'vnstat -i ' . $interface . ' -m | tail -3 | head -1',
@@ -97,6 +90,13 @@ function status(): array {
                 'command'     => 'cat /proc/uptime | awk \'{print $1}\'',
                 'adapt'       => function ($res) {
                     return (intval($res / 86400) + 1) . 'days';
+                }
+            ],
+            'backups_disk' => [
+                'description' => "percentage of usage for /mnt/backups",
+                'command'     => 'df -h /mnt/backups | awk \'NR==2 {print $5}\'',
+                'adapt'       => function ($res) {
+                    return $res;
                 }
             ]
         ],
