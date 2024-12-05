@@ -63,13 +63,19 @@ cp "$INSTALL_DIR"/conf/etc/vsftpd.conf /etc/vsftpd.conf
 # Restart FTP service
 systemctl restart vsftpd
 
+#######################
+### Install php-cli ###
+#######################
+
+apt-get install -y php-cli
+
 
 ########################
 ### Install listener ###
 ########################
 
 # Add a symbolic link for the eQual instance listener service
-ln -s /root/aru/tapu/host-backups-listener.service /etc/systemd/system/host-backups-listener.service
+ln -s /root/aru/tapu_backups/host-backups-listener.service /etc/systemd/system/host-backups-listener.service
 
 # Reload daemon
 systemctl daemon-reload
