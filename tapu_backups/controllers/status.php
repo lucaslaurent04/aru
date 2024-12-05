@@ -64,6 +64,15 @@ function status(): array {
                 'description' => "monthly network volume",
                 'command'     => 'vnstat -i ' . $interface . ' -m | tail -3 | head -1',
                 'adapt'       => function ($res) use ($adapt_units) {
+                    if(strpos($res, 'No data') !== false) {
+                        return [
+                            'rx'        => 'No data',
+                            'tx'        => 'No data',
+                            'total'     => 'No data',
+                            'avg_rate'  => 'No data',
+                        ];
+                    }
+
                     $parts = preg_split('/\s{2,10}/', $res, 3);
                     $b = array_map($adapt_units, array_map('trim', explode('|', $parts[2])));
                     return array_combine(['rx', 'tx', 'total', 'avg_rate'], $b);
