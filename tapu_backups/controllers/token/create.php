@@ -35,7 +35,7 @@ function token_create(array $data): array {
     $tokens = scandir(BASE_DIR.'/tokens');
 
     // Remove the '.' and '..'
-    $tokens = array_values(array_diff($tokens, ['.', '..']));
+    $tokens = array_values(array_diff($tokens, ['.', '..', '.gitignore']));
 
     if($tokens >= intval(getenv('MAX_TOKEN'))) {
         throw new InvalidArgumentException("max_token_reached_try_later", 400);
