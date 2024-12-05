@@ -64,12 +64,12 @@ function status(): array {
                 'description' => "monthly network volume",
                 'command'     => 'vnstat -i ' . $interface . ' -m | tail -3 | head -1',
                 'adapt'       => function ($res) use ($adapt_units) {
-                    if(strpos($res, 'No data') !== false) {
+                    if(strpos($res, '|') === false) {
                         return [
-                            'rx'        => 'No data',
-                            'tx'        => 'No data',
-                            'total'     => 'No data',
-                            'avg_rate'  => 'No data',
+                            'rx'        => 'No data yet',
+                            'tx'        => 'No data yet',
+                            'total'     => 'No data yet',
+                            'avg_rate'  => 'No data yet',
                         ];
                     }
 
