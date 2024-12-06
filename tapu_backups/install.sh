@@ -6,8 +6,8 @@
 INSTALL_DIR=$(pwd)
 
 # Needed vars
-BACKUP_DISK=""
-BACKUP_DISK_MOUNT=""
+BACKUPS_DISK=""
+BACKUPS_DISK_MOUNT=""
 
 # Function to display help
 flags_help() {
@@ -23,15 +23,15 @@ flags_help() {
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --backup_disk|-d )
-            BACKUP_DISK="$2"
-            if [[ -z "$BACKUP_DISK" ]]; then
+            BACKUPS_DISK="$2"
+            if [[ -z "$BACKUPS_DISK" ]]; then
                 echo "Error: --backup_disk requires a value."
                 exit 1
             fi
             shift ;;
         --backup_disk_mount|-m )
-            BACKUP_DISK_MOUNT="$2"
-            if [[ -z "$BACKUP_DISK_MOUNT" ]]; then
+            BACKUPS_DISK_MOUNT="$2"
+            if [[ -z "$BACKUPS_DISK_MOUNT" ]]; then
                 echo "Error: --backup_disk_mount requires a value."
                 exit 1
             fi
@@ -45,14 +45,14 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-# Exit if missing $BACKUP_DISK
-if [ -z "$BACKUP_DISK" ]; then
+# Exit if missing $BACKUPS_DISK
+if [ -z "$BACKUPS_DISK" ]; then
     echo "Missing required --backup_disk"
     exit 1
 fi
 
-# Exit if missing $BACKUP_DISK_MOUNT
-if [ -z "$BACKUP_DISK_MOUNT" ]; then
+# Exit if missing $BACKUPS_DISK_MOUNT
+if [ -z "$BACKUPS_DISK_MOUNT" ]; then
     echo "Missing required --backup_disk_mount"
     exit 1
 fi
@@ -72,15 +72,15 @@ if [ ! -f "$INSTALL_DIR/.env" ]; then
     cp "$INSTALL_DIR/.env.example" "$INSTALL_DIR/.env"
 fi
 
-# Update BACKUP_DISK conf
-grep -q "^BACKUP_DISK=" "$INSTALL_DIR/.env" && \
-sed -i "s|^BACKUP_DISK=.*|BACKUP_DISK=$BACKUP_DISK|" "$INSTALL_DIR/.env" || \
-echo "BACKUP_DISK=$BACKUP_DISK" >> "$INSTALL_DIR/.env"
+# Update BACKUPS_DISK conf
+grep -q "^BACKUPS_DISK=" "$INSTALL_DIR/.env" && \
+sed -i "s|^BACKUPS_DISK=.*|BACKUPS_DISK=$BACKUPS_DISK|" "$INSTALL_DIR/.env" || \
+echo "BACKUPS_DISK=$BACKUPS_DISK" >> "$INSTALL_DIR/.env"
 
-# Update BACKUP_DISK_MOUNT conf
-grep -q "^BACKUP_DISK_MOUNT=" "$INSTALL_DIR/.env" && \
-sed -i "s|^BACKUP_DISK_MOUNT=.*|BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT|" "$INSTALL_DIR/.env" || \
-echo "BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT" >> "$INSTALL_DIR/.env"
+# Update BACKUPS_DISK_MOUNT conf
+grep -q "^BACKUPS_DISK_MOUNT=" "$INSTALL_DIR/.env" && \
+sed -i "s|^BACKUPS_DISK_MOUNT=.*|BACKUPS_DISK_MOUNT=$BACKUPS_DISK_MOUNT|" "$INSTALL_DIR/.env" || \
+echo "BACKUPS_DISK_MOUNT=$BACKUPS_DISK_MOUNT" >> "$INSTALL_DIR/.env"
 
 
 #########################
@@ -88,16 +88,16 @@ echo "BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT" >> "$INSTALL_DIR/.env"
 #########################
 
 # Create backups directory
-mkdir $BACKUP_DISK_MOUNT
+mkdir $BACKUPS_DISK_MOUNT
 
 # Format disk to ext filesystem
-mkfs -t ext4 $BACKUP_DISK
+mkfs -t ext4 $BACKUPS_DISK
 
 # Handle auto mount on startup
-echo "$BACKUP_DISK	$BACKUP_DISK_MOUNT	ext4	defaults	0	0" >> /etc/fstab
+echo "$BACKUPS_DISK	$BACKUPS_DISK_MOUNT	ext4	defaults	0	0" >> /etc/fstab
 
 # Mount disk
-mount $BACKUP_DISK_MOUNT
+mount $BACKUPS_DISK_MOUNT
 
 
 ##########################
