@@ -40,15 +40,20 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-# Create .env file
+# Create .env file from example
 if [ ! -f "$INSTALL_DIR/.env" ]; then
-    touch "$INSTALL_DIR/.env"
-    echo "BACKUP_DISK=$BACKUP_DISK" >> "$INSTALL_DIR/.env"
-    echo "BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT" >> "$INSTALL_DIR/.env"
-else
-    grep -q "BACKUP_DISK=$BACKUP_DISK" "$INSTALL_DIR/.env" || echo "BACKUP_DISK=$BACKUP_DISK" >> "$INSTALL_DIR/.env"
-    grep -q "BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT" "$INSTALL_DIR/.env" || echo "BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT" >> "$INSTALL_DIR/.env"
+    cp ".env.example" ".env"
 fi
+
+# Update BACKUP_DISK conf
+grep -q "^BACKUP_DISK=" "$INSTALL_DIR/.env" && \
+sed -i "s|^BACKUP_DISK=.*|BACKUP_DISK=$BACKUP_DISK|" "$INSTALL_DIR/.env" || \
+echo "BACKUP_DISK=$BACKUP_DISK" >> "$INSTALL_DIR/.env"
+
+# Update BACKUP_DISK_MOUNT conf
+grep -q "^BACKUP_DISK_MOUNT=" "$INSTALL_DIR/.env" && \
+sed -i "s|^BACKUP_DISK_MOUNT=.*|BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT|" "$INSTALL_DIR/.env" || \
+echo "BACKUP_DISK_MOUNT=$BACKUP_DISK_MOUNT" >> "$INSTALL_DIR/.env"
 
 
 #########################
