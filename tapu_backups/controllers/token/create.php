@@ -54,6 +54,8 @@ function token_create(array $data): array {
     $password = bin2hex(random_bytes(16));
 
     exec("useradd -m -s /sbin/nologin $username");
+
+    // Allow FTP access to nologin newly created user
     exec("usermod -s /bin/bash $username");
 
     // Set the password for the user
