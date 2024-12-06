@@ -42,16 +42,16 @@ function token_create(array $data): array {
     $token = bin2hex(random_bytes(16));
     $created_at = date('Y-m-d H:i:s');
 
-    // Add the creation datetime and instance
-    $token_data = compact('token', 'created_at', 'instance');
-
-    // Create file to persist the token
-    file_put_contents(TOKENS_DIR."/$instance.json", json_encode($token_data));
-
     // Create a new system user with no shell access (for FTP use)
     $instance_escaped = escapeshellarg($data['instance']);
     $username = trim($instance_escaped, "'");
     $password = bin2hex(random_bytes(16));
+
+    // Add the creation datetime and instance
+    $token_data = compact('token', 'created_at', 'instance', 'username', 'password');
+
+    // Create file to persist the token
+    file_put_contents(TOKENS_DIR."/$instance.json", json_encode($token_data));
 
     exec("useradd -m -s /sbin/nologin $username");
 
