@@ -31,11 +31,8 @@ function token_create(array $data): array {
 
     $instance = $data['instance'];
 
-    // Retrieve the list files in tokens directory
-    $tokens = scandir(TOKENS_DIR);
-
-    // Remove the '.' and '..'
-    $tokens = array_values(array_diff($tokens, ['.', '..', '.gitignore']));
+    // Retrieve the tokens
+    $tokens = glob(TOKENS_DIR . '/*.json');
 
     if(count($tokens) >= intval(getenv('MAX_TOKEN'))) {
         throw new InvalidArgumentException("max_token_reached_try_later", 400);
