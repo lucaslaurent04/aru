@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# Store current directory path
+INSTALL_DIR=$(pwd)
+
 # Needed vars
-BACKUP_DISK=0
-BACKUP_DISK_MOUNT=0
+BACKUP_DISK=""
+BACKUP_DISK_MOUNT=""
 
 # Function to display help
 flags_help() {
@@ -11,7 +14,7 @@ flags_help() {
     echo "  --backup_disk,       -d <disk>  Specify backups disk name. (required)"
     echo "  --backup_disk_mount, -m <path>  Specify backups disk mount directory name. (required)"
     echo "  --help, -h                Show help message."
-    exit 0
+    [ "$1" = "error" ] && exit 1 || exit 0
 }
 
 # Parse options
@@ -19,14 +22,14 @@ while [[ "$#" -gt 0 ]]; do
     case $1 in
         --backup_disk|-d )
             BACKUP_DISK="$2"
-            if [[ -z "BACKUP_DISK" ]]; then
+            if [[ -z "$BACKUP_DISK" ]]; then
                 echo "Error: --backup_disk requires a value."
                 exit 1
             fi
             shift ;;
         --backup_disk_mount|-m )
             BACKUP_DISK_MOUNT="$2"
-            if [[ -z "BACKUP_DISK_MOUNT" ]]; then
+            if [[ -z "$BACKUP_DISK_MOUNT" ]]; then
                 echo "Error: --backup_disk_mount requires a value."
                 exit 1
             fi
@@ -35,31 +38,36 @@ while [[ "$#" -gt 0 ]]; do
             flags_help ;;
         * )
             echo "Unknown option: $1"
-            flags_help ; exit 1 ;;
+            flags_help error ;;
     esac
     shift
 done
 
 # Exit if missing $BACKUP_DISK
-if [ "$BACKUP_DISK" = 0 ]; then
-    echo "Missing required backup_disk"
-    exit 1;
+if [ -z "$BACKUP_DISK" ]; then
+    echo "Missing required --backup_disk"
+    exit 1
 fi
 
 # Exit if missing $BACKUP_DISK_MOUNT
-if [ "$BACKUP_DISK_MOUNT" = 0 ]; then
-    echo "Missing required backup_disk_mount"
-    exit 1;
+if [ -z "$BACKUP_DISK_MOUNT" ]; then
+    echo "Missing required --backup_disk_mount"
+    exit 1
 fi
-
 
 #####################
 ### Env variables ###
 #####################
 
+# Ensure .env.example exists
+if [ ! -f "$INSTALL_DIR/.env.example" ]; then
+    echo "Error: $INSTALL_DIR/.env.example does not exist."
+    exit 1
+fi
+
 # Create .env file from example if it does not exist
 if [ ! -f "$INSTALL_DIR/.env" ]; then
-    cp ".env.example" ".env"
+    cp "$INSTALL_DIR/.env.example" "$INSTALL_DIR/.env"
 fi
 
 # Update BACKUP_DISK conf
