@@ -13,7 +13,7 @@ flags_help() {
     echo "Options:"
     echo "  --backup_disk,       -d <disk>  Specify backups disk name. (required)"
     echo "  --backup_disk_mount, -m <path>  Specify backups disk mount directory name. (required)"
-    echo "  --help, -h                Show help message."
+    echo "  --help, -h                      Show help message."
     [ "$1" = "error" ] && exit 1 || exit 0
 }
 
