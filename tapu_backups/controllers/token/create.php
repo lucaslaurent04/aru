@@ -50,7 +50,7 @@ function token_create(array $data): array {
 
     // Create a new system user with no shell access (for FTP use)
     $instance_escaped = escapeshellarg($data['instance']);
-    $username = $instance_escaped;
+    $username = trim($instance_escaped, "'");
     $password = bin2hex(random_bytes(16));
 
     exec("useradd -m -s /sbin/nologin $username");
