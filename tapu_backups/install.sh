@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Default values
-BACKUP_DISK="/dev/sdb"
-BACKUP_DISK_MOUNT="/mnt/backups"
+# Needed vars
+BACKUP_DISK=0
+BACKUP_DISK_MOUNT=0
 
 # Function to display help
 flags_help() {
     echo "Usage: script.sh [options]"
     echo "Options:"
-    echo "  --backup_disk,       -d <disk>  Specify backups disk name. (default: /dev/sdb)"
-    echo "  --backup_disk_mount, -m <path>  Specify backups disk mount directory name. (default: /mnt/backups)"
+    echo "  --backup_disk,       -d <disk>  Specify backups disk name. (required)"
+    echo "  --backup_disk_mount, -m <path>  Specify backups disk mount directory name. (required)"
     echo "  --help, -h                Show help message."
     exit 0
 }
@@ -40,7 +40,24 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-# Create .env file from example
+# Exit if missing $BACKUP_DISK
+if [ "$BACKUP_DISK" = 0 ]; then
+    echo "Missing required backup_disk"
+    exit 1;
+fi
+
+# Exit if missing $BACKUP_DISK_MOUNT
+if [ "$BACKUP_DISK_MOUNT" = 0 ]; then
+    echo "Missing required backup_disk_mount"
+    exit 1;
+fi
+
+
+#####################
+### Env variables ###
+#####################
+
+# Create .env file from example if it does not exist
 if [ ! -f "$INSTALL_DIR/.env" ]; then
     cp ".env.example" ".env"
 fi
