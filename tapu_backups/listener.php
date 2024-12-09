@@ -1,7 +1,11 @@
 <?php
 
+include_once '../helpers/env.php';
 include_once '../helpers/http-response.php';
 include_once '../helpers/request-handler.php';
+
+const BASE_DIR = __DIR__;
+const TOKENS_DIR = __DIR__ . '/tokens';
 
 $request = [
     'method'        => $_SERVER['REQUEST_METHOD'],

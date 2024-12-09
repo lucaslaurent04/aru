@@ -45,17 +45,20 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-# Exit if missing $BACKUPS_DISK
-if [ -z "$BACKUPS_DISK" ]; then
-    echo "Missing required --backup_disk"
-    exit 1
-fi
+# Array of required variables and their descriptions
+declare -A required_vars=(
+    ["BACKUPS_DISK"]="--backup_disk"
+    ["BACKUPS_DISK_MOUNT"]="--backup_disk_mount"
+)
 
-# Exit if missing $BACKUPS_DISK_MOUNT
-if [ -z "$BACKUPS_DISK_MOUNT" ]; then
-    echo "Missing required --backup_disk_mount"
-    exit 1
-fi
+# Iterate over the required variables
+for var in "${!required_vars[@]}"; do
+    if [ -z "${!var}" ]; then
+        echo "Missing required ${required_vars[$var]}"
+        exit 1
+    fi
+done
+
 
 #####################
 ### Env variables ###
@@ -72,15 +75,23 @@ if [ ! -f "$INSTALL_DIR/.env" ]; then
     cp "$INSTALL_DIR/.env.example" "$INSTALL_DIR/.env"
 fi
 
-# Update BACKUPS_DISK conf
-grep -q "^BACKUPS_DISK=" "$INSTALL_DIR/.env" && \
-sed -i "s|^BACKUPS_DISK=.*|BACKUPS_DISK=$BACKUPS_DISK|" "$INSTALL_DIR/.env" || \
-echo "BACKUPS_DISK=$BACKUPS_DISK" >> "$INSTALL_DIR/.env"
+# List of configuration variables and their values
+declare -A configs=(
+    ["BACKUPS_DISK"]="$BACKUPS_DISK"
+    ["BACKUPS_DISK_MOUNT"]="$BACKUPS_DISK_MOUNT"
+)
 
-# Update BACKUPS_DISK_MOUNT conf
-grep -q "^BACKUPS_DISK_MOUNT=" "$INSTALL_DIR/.env" && \
-sed -i "s|^BACKUPS_DISK_MOUNT=.*|BACKUPS_DISK_MOUNT=$BACKUPS_DISK_MOUNT|" "$INSTALL_DIR/.env" || \
-echo "BACKUPS_DISK_MOUNT=$BACKUPS_DISK_MOUNT" >> "$INSTALL_DIR/.env"
+# Iterate over the configuration variables
+for key in "${!configs[@]}"; do
+    value="${configs[$key]}"
+
+    # Update or append the configuration in the .env file
+    if grep -q "^$key=" "$INSTALL_DIR/.env"; then
+        sed -i "s|^$key=.*|$key=$value|" "$INSTALL_DIR/.env"
+    else
+        echo "$key=$value" >> "$INSTALL_DIR/.env"
+    fi
+done
 
 
 #########################

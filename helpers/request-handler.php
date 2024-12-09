@@ -1,7 +1,5 @@
 <?php
 
-include_once './env.php';
-
 /**
  * Handles the given request and returns the response body and status code
  *
@@ -59,9 +57,6 @@ function handle_request(array $request, array $allowed_routes): array {
         if(!is_callable($handler_method_name)) {
             throw new Exception("missing_method", 501);
         }
-
-        define('BASE_DIR', __DIR__);
-        define('TOKENS_DIR', __DIR__ . '/tokens');
 
         load_env(BASE_DIR . '/.env');
 
