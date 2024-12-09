@@ -21,7 +21,7 @@ try {
         throw new Exception("unknown_route", 404);
     }
 
-    if($_SERVER['CONTENT_TYPE'] != 'application/json') {
+    if($_SERVER['CONTENT_TYPE'] !== 'application/json') {
         throw new Exception("invalid_body", 400);
     }
 
@@ -32,7 +32,7 @@ try {
     $data = json_decode($json, true);
 
     // Check if data decoded successfully
-    if($data === null || gettype($data) !== 'array') {
+    if(!is_array($data)) {
         throw new Exception("invalid_json", 400);
     }
 
