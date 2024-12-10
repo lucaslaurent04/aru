@@ -115,9 +115,11 @@ if ! mount | grep -q "on $BACKUPS_DISK_MOUNT "; then
 fi
 
 
-###################
-### Handle cron ###
-###################
+####################
+### Install cron ###
+####################
+
+apt-get install -y cron
 
 PHP_SCRIPT="/root/aru/tapu_backups/cron.php"
 CRON_CMD="* * * * * /usr/bin/php $PHP_SCRIPT"
