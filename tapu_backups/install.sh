@@ -151,5 +151,3 @@ systemctl enable host-backups-listener.service
 
 # Start the listener service
 systemctl start host-backups-listener.service
-
-./install.sh --backup_disk /dev/sdb --backup_disk_mount /mnt/backups
