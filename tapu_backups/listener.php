@@ -16,10 +16,11 @@ $request = [
 ];
 
 $allowed_routes = [
-    '/status',              /* @link status() */
-    '/instance/backups',    /* @link instance_backups() */
-    '/token/create',        /* @link token_create() */
-    '/token/release'        /* @link token_release() */
+    '/status',                  /* @link status() */
+    '/instance/backups',        /* @link instance_backups() */
+    '/release-expired-tokens',  /* @link release_expired_tokens() */
+    '/token/create',            /* @link token_create() */
+    '/token/release'            /* @link token_release() */
 ];
 
 ['body' => $body, 'code' => $code] = handle_request($request, $allowed_routes);
