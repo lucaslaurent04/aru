@@ -5,6 +5,7 @@ include_once '../helpers/http-response.php';
 include_once '../helpers/request-handler.php';
 
 const BASE_DIR = __DIR__;
+const CONTROLLERS_DIR = __DIR__ . '/controllers';
 const TOKENS_DIR = __DIR__ . '/tokens';
 
 $request = [

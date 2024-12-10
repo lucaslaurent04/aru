@@ -41,7 +41,7 @@ function handle_request(array $request, array $allowed_routes): array {
 
         $handler = trim($request['uri'], '/');
 
-        $controller_file = __DIR__ . '/controllers/' . $handler . '.php';
+        $controller_file = CONTROLLERS_DIR . '/' . $handler . '.php';
 
         // Check if the controller or script file exists
         if(!file_exists($controller_file)) {
