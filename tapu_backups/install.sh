@@ -115,6 +115,20 @@ if ! mount | grep -q "on $BACKUPS_DISK_MOUNT "; then
 fi
 
 
+###################
+### Handle cron ###
+###################
+
+PHP_SCRIPT="/root/aru/tapu_backups/cron.php"
+CRON_CMD="* * * * * /usr/bin/php $PHP_SCRIPT"
+
+# Check if the cron job already exists
+if ! crontab -l | grep -q "$PHP_SCRIPT"; then
+    # If not, add the cron job
+    (crontab -l 2>/dev/null; echo "$CRON_CMD") | crontab -
+fi
+
+
 ##########################
 ### Install ftp server ###
 ##########################
@@ -128,6 +142,7 @@ cp "$INSTALL_DIR"/conf/etc/vsftpd.conf /etc/vsftpd.conf
 
 # Restart FTP service
 systemctl restart vsftpd
+
 
 ###############################
 ### Install needed packages ###
