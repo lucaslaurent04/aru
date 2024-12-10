@@ -10,7 +10,7 @@ const TOKENS_DIR = __DIR__ . '/tokens';
 $cron_jobs = [
     [
         'description'   => "Release expired backup tokens every 5 minutes.",
-        'crontab'       => '*/1 * * * *',
+        'crontab'       => '*/5 * * * *',
         'controller'    => 'release-expired-tokens'
     ]
 ];
