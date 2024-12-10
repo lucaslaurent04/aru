@@ -103,7 +103,7 @@ if ! mount | grep -q "on $BACKUPS_DISK_MOUNT "; then
     mkdir $BACKUPS_DISK_MOUNT
 
     # Format disk to ext filesystem, if it's not already the case
-    if blkid "$BACKUPS_DISK" | grep -q 'TYPE="ext4"'; then
+    if ! blkid "$BACKUPS_DISK" | grep -q 'TYPE="ext4"'; then
         mkfs -t ext4 $BACKUPS_DISK
     fi
 
