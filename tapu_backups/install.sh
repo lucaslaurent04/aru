@@ -98,17 +98,19 @@ done
 ### Mount backup disk ###
 #########################
 
-# Create backups directory
-mkdir $BACKUPS_DISK_MOUNT
+if ! mount | grep -q "on $BACKUPS_DISK_MOUNT "; then
+    # Create backups directory
+    mkdir $BACKUPS_DISK_MOUNT
 
-# Format disk to ext filesystem
-mkfs -t ext4 $BACKUPS_DISK
+    # Format disk to ext filesystem
+    mkfs -t ext4 $BACKUPS_DISK
 
-# Handle auto mount on startup
-echo "$BACKUPS_DISK	$BACKUPS_DISK_MOUNT	ext4	defaults	0	0" >> /etc/fstab
+    # Handle auto mount on startup
+    echo "$BACKUPS_DISK	$BACKUPS_DISK_MOUNT	ext4	defaults	0	0" >> /etc/fstab
 
-# Mount disk
-mount $BACKUPS_DISK_MOUNT
+    # Mount disk
+    mount $BACKUPS_DISK_MOUNT
+fi
 
 
 ##########################
