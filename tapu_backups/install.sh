@@ -102,8 +102,10 @@ if ! mount | grep -q "on $BACKUPS_DISK_MOUNT "; then
     # Create backups directory
     mkdir $BACKUPS_DISK_MOUNT
 
-    # Format disk to ext filesystem
-    mkfs -t ext4 $BACKUPS_DISK
+    # Format disk to ext filesystem, if it's not already the case
+    if blkid "$BACKUPS_DISK" | grep -q 'TYPE="ext4"'; then
+        mkfs -t ext4 $BACKUPS_DISK
+    fi
 
     # Handle auto mount on startup
     echo "$BACKUPS_DISK	$BACKUPS_DISK_MOUNT	ext4	defaults	0	0" >> /etc/fstab
