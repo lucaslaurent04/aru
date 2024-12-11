@@ -40,7 +40,7 @@ Release the tokens that are expired:
 
 ## Instance
 
-### POST _/backups_
+### POST _/instance/backups_
 
 Get the stored backups of a specific instance.
 
@@ -62,7 +62,7 @@ Get the stored backups of a specific instance.
 
 ## Token
 
-### POST _/create_
+### POST _/token/create_
 
 Create a token to export or import an instance backup.
 Only one token for an instance can be created at a time.
@@ -83,7 +83,7 @@ Only one token for an instance can be created at a time.
 |----------|:--------:|:-------:|--------|---------------------------|
 | instance |   true   |         |        | Must be a valid instance. |
 
-### POST _/release_
+### POST _/token/release_
 
 Release a token because the export or import of a backup is finished.
 It'll allow other backup operations to take place.
