@@ -5,6 +5,12 @@
 # Store current directory path
 INSTALL_DIR=$(pwd)
 
+# Check that script is started from valid directory
+if [ "$INSTALL_DIR" != "/root/aru/tapu_backups" ]; then
+  echo "Error: Script must be run from /root/aru/tapu_backups directory. Current directory is $INSTALL_DIR."
+  exit 1
+fi
+
 # Needed vars
 BACKUPS_DISK=""
 BACKUPS_DISK_MOUNT=""
