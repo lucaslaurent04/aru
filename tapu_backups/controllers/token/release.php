@@ -39,12 +39,12 @@ function token_release(array $data): array {
     }
 
     // Remove system user with no shell access (for FTP use) (keep home directory)
-    $instance_escaped = escapeshellarg($data['instance']);
-    $username = $instance_escaped;
+    $username = $data['instance'];
     exec("userdel $username");
 
     // Remove token file
-    exec('rm '.BASE_DIR.'/tokens/'.escapeshellarg($data['instance'].'.json'));
+    $token_file_path = TOKENS_DIR.'/'.$data['instance'].'.json';
+    exec("rm $token_file_path");
 
     return [
         'code' => 200,
