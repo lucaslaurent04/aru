@@ -10,7 +10,7 @@ Support host types:
 
 ## Network architecture
 
-![](doc/organization.png)
+![](doc/network-architecture.drawio.png)
 
 ## tapu-backups
 
