@@ -31,3 +31,11 @@ This script must be executed with **root privileges**.
 **Notes**:
   - You must **execute** the installation script with **root privileges**.
   - The **backup_disk arguments** are needed  to **mount and configure** the disk that will be used to store the backups.
+
+### Cron
+
+The `./cron.php is run evey minute` it will execute a series of jobs. It will call a controller depending on its configured crontab.
+
+**Jobs**:
+
+  - release-expired-tokens controller is called every 5 minutes, it'll release token that are considered expired based on env variable TOKEN_VALIDITY.
