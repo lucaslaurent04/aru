@@ -60,9 +60,7 @@ Get the stored backups of a specific instance.
 |----------|:--------:|:-------:|--------|---------------------------|
 | instance |   true   |         |        | Must be a valid instance. |
 
-## Token
-
-### POST _/token/create_
+### POST _/instance/create-token_
 
 Create a token to export or import an instance backup.
 Only one token for an instance can be created at a time.
@@ -83,11 +81,10 @@ Only one token for an instance can be created at a time.
 |----------|:--------:|:-------:|--------|---------------------------|
 | instance |   true   |         |        | Must be a valid instance. |
 
-### POST _/token/release_
+### POST _/instance/release-token_
 
 Release a token because the export or import of a backup is finished.
 It'll allow other backup operations to take place.
-
 
 #### Request Headers
 
