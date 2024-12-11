@@ -16,7 +16,7 @@
  * }
  * @throws Exception
  */
-function token_create(array $data): array {
+function instance_create_token(array $data): array {
     if(!isset($data['instance'])) {
         throw new InvalidArgumentException("missing_instance", 400);
     }
@@ -61,7 +61,7 @@ function token_create(array $data): array {
     exec("echo '$username:$password' | sudo chpasswd");
 
     // Set the user's home directory
-    $home_directory = getenv('BACKUPS_DISK_MOUNT').'/'.$username;
+    $home_directory = getenv('BACKUPS_DISK_MOUNT') . 'create-token.php/' .$username;
     exec("mkdir $home_directory");
     exec("usermod -d $home_directory $username");
 

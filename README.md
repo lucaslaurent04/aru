@@ -1,30 +1,56 @@
-# Aru (arû = attic, warehouse)
+# aru
 
-This repository is dedicated to the installation scripts and documentation for special hosts intended to B2 instances support:
+First things first, arû is a Japanese word that means attic/warehouse. 
+This repository is dedicated to the installation scripts, APIs and documentation of special hosts intended to support [b2](https://github.com/yesbabylon/b2) hosts.
 
-* host-backup (tapu): to store instance backups
-* host-stats (sapu): to retain log history and track instance statistics
-* host-admin (seru): to manage B2 hosts and instances (CRUD)
+Support host types:
+  - **tapu-backups** to store instances backups
+  - **sapu-stats** to retain log history and track instances statistics
+  - **seru-admin** to manage the whole ecosystem of b2, backups and stats hosts
 
-## System organization
-- **General recap:**
-    <div style="text-align:center"><img src="doc/organization.png"  alt="Organization"/></div>
+## Important Note
 
-## Host Backups
+The aru repository must be placed in the `/root` folder of your server.
 
-- **Backup: export & import**
-    <div style="text-align:center"><img src="doc/hosts_message_summary_from_b2_to_backup.png"  alt="Backups"/></div>
+## Network architecture
 
-- **Backup and Restore Process**
-    <div style="text-align:center"><img src="doc/backups_process.png"  alt="Backups process"/></div>
+![](doc/network-architecture.drawio.png)
 
-## Host Stats
-<div style="text-align:center"><img src="doc/hosts_message_summary_from_b2_to_stats.png"  alt="Host messages summary"/></div>
+Multiple tapu-backups, sapu-stats and b2 hosts are allowed, but there should be only one seru-admin host for management.
 
-## Host Admin
-- **B2 Host administration**
-    <div style="text-align:center"><img src="doc/hosts_message_summary_from_b2_to_admin.png"  alt="Host messages summary"/></div>
+The b2 hosts should be the only hosts publicly accessible from the internet. Basically, they expose the eQual instances to the world.
 
-- **Backup Host administration**
-    <div style="text-align:center"><img src="doc/hosts_message_summary_from_admin_to_backups.png"  alt="Admin"/></div>
+## tapu-backups
 
+A tapu-backups host is meant to store backups of b2 hosts instances for future restoration of state.
+
+### Configuration
+
+The `tapu-backups` host is configured with a `MAX_TOKEN` environment variable.
+It defines the maximum number of tokens available, limiting the number of simultaneous backup operations it can handle.
+
+By coordinating token management and connection credentials, the system ensures secure and efficient backups.
+
+### Backup export
+
+A `b2` host can upload an instance backup to a configured `tapu-backups` host using an FTP connection.
+
+#### Workflow
+
+![](doc/uml/backup-export.png)
+
+### Backup import
+
+A `b2` host can download an instance backup from a configured `tapu-backups` host using an FTP connection.
+
+#### Workflow
+
+![](doc/uml/backup-import.png)
+
+## sapu-stats
+
+IN PROGRESS
+
+## seru-admin
+
+IN PROGRESS

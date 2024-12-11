@@ -7,7 +7,7 @@
  * @return array{code: int, body: string}
  * @throws Exception
  */
-function token_release(array $data): array {
+function instance_release_token(array $data): array {
     if(!isset($data['instance'])) {
         throw new InvalidArgumentException("missing_instance", 400);
     }

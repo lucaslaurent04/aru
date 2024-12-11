@@ -5,6 +5,12 @@
 # Store current directory path
 INSTALL_DIR=$(pwd)
 
+# Check that script is started from valid directory
+if [ "$INSTALL_DIR" != "/root/aru/tapu_backups" ]; then
+  echo "Error: Script must be run from /root/aru/tapu_backups directory. Current directory is $INSTALL_DIR."
+  exit 1
+fi
+
 # Needed vars
 BACKUPS_DISK=""
 BACKUPS_DISK_MOUNT=""
@@ -94,6 +100,20 @@ for key in "${!configs[@]}"; do
 done
 
 
+############
+### Base ###
+############
+
+# Make sure aptitude cache is up-to-date
+apt-get update
+
+# Set timezone to UTC (for sync with containers having UTC as default TZ)
+timedatectl set-timezone UTC
+
+# Install vnstat (bandwidth monitoring) and PHP cli (for API)
+apt-get install -y vnstat php-cli
+
+
 #########################
 ### Mount backup disk ###
 #########################
@@ -144,13 +164,6 @@ cp "$INSTALL_DIR"/conf/etc/vsftpd.conf /etc/vsftpd.conf
 
 # Restart FTP service
 systemctl restart vsftpd
-
-
-###############################
-### Install needed packages ###
-###############################
-
-apt-get install -y vnstat php-cli
 
 
 ########################
