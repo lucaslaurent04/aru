@@ -15,7 +15,7 @@ This script must be executed with **root privileges**.
 ### Script steps
 
 1. Checks that script run on correct directory and checks required args
-2. Creates .env file from .env.example and add/update GPG_* with command given args
+2. Creates .env file from .env.example and add/update BACKUPS_DISK* with command given args
 3. Does base server configurations and installs base services that are needed (vnstat, php-cli)
 4. Mounts and configures backup disk
 5. Installs cron and configure it, it'll start `./cron.php` every minute
