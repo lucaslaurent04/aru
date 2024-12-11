@@ -8,6 +8,10 @@ Support host types:
   - **sapu-stats** to retain log history and track instances statistics
   - **seru-admin** to manage the whole ecosystem of b2, backups and stats hosts
 
+## Important Note
+
+The aru repository must be placed in the `/root` folder of your server.
+
 ## Network architecture
 
 ![](doc/network-architecture.drawio.png)
