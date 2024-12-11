@@ -39,20 +39,8 @@
  * @throws Exception
  */
 function status(): array {
-    $do_cmd = function ($command) {
-        $result = null;
-        if(exec($command, $output) !== false) {
-            $result = reset($output);
-        }
-        return $result;
-    };
-
-    $adapt_units = function ($str) {
-        return str_replace(['GiB', 'Gi', 'MiB', 'Mi', 'KiB', 'Ki', 'kbit/s'], ['G', 'G', 'M', 'M', 'K', 'K', 'kbs'], str_replace(' ', '', $str));
-    };
-
     // Retrieve interface (usually either eth0 or ens3)
-    $interface = $do_cmd('ip link show | head -3 | tail -1 | awk \'{print $2}\'');
+    $interface = exec_status_cmd('ip link show | head -3 | tail -1 | awk \'{print $2}\'');
     if(!$interface) {
         throw new Exception("unable_to_retrieve_main_interface", 500);
     }
@@ -64,7 +52,7 @@ function status(): array {
             'net' => [
                 'description' => "monthly network volume",
                 'command'     => 'vnstat -i ' . $interface . ' -m | tail -3 | head -1',
-                'adapt'       => function ($res) use ($adapt_units) {
+                'adapt'       => function ($res) {
                     if(strpos($res, '|') === false) {
                         return [
                             'rx'        => 'No data yet',
@@ -75,7 +63,7 @@ function status(): array {
                     }
 
                     $parts = preg_split('/\s{2,10}/', $res, 3);
-                    $b = array_map($adapt_units, array_map('trim', explode('|', $parts[2])));
+                    $b = array_map('adapt_unit', array_map('trim', explode('|', $parts[2])));
                     return array_combine(['rx', 'tx', 'total', 'avg_rate'], $b);
                 }
             ],
@@ -112,8 +100,8 @@ function status(): array {
             'ram_use' => [
                 'description' => "used RAM (Bytes)",
                 'command'     => 'free -mh |awk \'/Mem/{print $3}\'',
-                'adapt'       => function ($res) use ($adapt_units) {
-                    return $adapt_units($res);
+                'adapt'       => function ($res) {
+                    return adapt_unit($res);
                 }
             ],
             'cpu_use' => [
@@ -126,8 +114,8 @@ function status(): array {
             'disk_use' => [
                 'description' => "consumed disk space",
                 'command'     => 'df . -h | tail -1 | awk \'{print $3}\'',
-                'adapt'       => function ($res) use ($adapt_units) {
-                    return $adapt_units($res);
+                'adapt'       => function ($res) {
+                    return adapt_unit($res);
                 }
             ],
             'usr_active' => [
@@ -156,8 +144,8 @@ function status(): array {
             'host' => [
                 'description' => "host name",
                 'command'     => 'hostname',
-                'adapt'       => function ($res) use ($adapt_units) {
-                    return $adapt_units($res);
+                'adapt'       => function ($res) {
+                    return adapt_unit($res);
                 }
             ],
             'uptime' => [
@@ -170,8 +158,8 @@ function status(): array {
             'mem' => [
                 'description' => "total RAM",
                 'command'     => 'free -mh | awk \'/Mem/{print $2}\'',
-                'adapt'       => function ($res) use ($adapt_units) {
-                    return $adapt_units($res);
+                'adapt'       => function ($res) {
+                    return adapt_unit($res);
                 }
             ],
             'cpu_qty' => [
@@ -195,8 +183,8 @@ function status(): array {
             'disk' => [
                 'description' => "total disk space",
                 'command'     => 'df . -h | tail -1 | awk \'{print $2}\'',
-                'adapt'       => function ($res) use ($adapt_units) {
-                    return $adapt_units($res);
+                'adapt'       => function ($res) {
+                    return adapt_unit($res);
                 }
             ],
             'ip_private' => [
@@ -212,7 +200,7 @@ function status(): array {
     $result = [];
     foreach($commands as $cat => $cat_commands) {
         foreach($cat_commands as $cmd => $command) {
-            $res = $do_cmd($command['command']);
+            $res = exec_status_cmd($command['command']);
             $result[$cat][$cmd] = $command['adapt']($res);
         }
     }
