@@ -12,6 +12,10 @@ Support host types:
 
 ![](doc/network-architecture.drawio.png)
 
+Multiple tapu-backups, sapu-stats and b2 hosts are allowed, but there should be only one seru-admin host for management.
+
+The b2 hosts should be the only hosts publicly accessible from the internet. Basically, they expose the eQual instances to the world.
+
 ## tapu-backups
 
 A tapu-backups host is meant to store backups of b2 hosts instances for future restoration of state.
