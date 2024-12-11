@@ -16,10 +16,10 @@ This script must be executed with **root privileges**.
 
 1. Checks that script run on correct directory and checks required args
 2. Creates .env file from .env.example and add/update GPG_* with command given args
-3. Mounts and configures backup disk
-4. Installs cron and configure it, it'll start `./cron.php` every minute
-5. Installs vsftpd server
-6. Installs base services that are needed (vnstat, php-cli)
+3. Does base server configurations and installs base services that are needed (vnstat, php-cli)
+4. Mounts and configures backup disk
+5. Installs cron and configure it, it'll start `./cron.php` every minute
+6. Installs vsftpd server
 7. Installs [API](./README_API.md) service that will listen for requests on port :8000
 
 ### Usage

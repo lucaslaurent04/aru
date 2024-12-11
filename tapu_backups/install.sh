@@ -100,6 +100,20 @@ for key in "${!configs[@]}"; do
 done
 
 
+############
+### Base ###
+############
+
+# Make sure aptitude cache is up-to-date
+apt-get update
+
+# Set timezone to UTC (for sync with containers having UTC as default TZ)
+timedatectl set-timezone UTC
+
+# Install vnstat (bandwidth monitoring) and PHP cli (for API)
+apt-get install -y vnstat php-cli
+
+
 #########################
 ### Mount backup disk ###
 #########################
@@ -150,13 +164,6 @@ cp "$INSTALL_DIR"/conf/etc/vsftpd.conf /etc/vsftpd.conf
 
 # Restart FTP service
 systemctl restart vsftpd
-
-
-###############################
-### Install needed packages ###
-###############################
-
-apt-get install -y vnstat php-cli
 
 
 ########################
