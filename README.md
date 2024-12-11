@@ -1,6 +1,6 @@
 # aru
 
-First things first, arû is a japanese word that means attic/warehouse. 
+First things first, arû is a Japanese word that means attic/warehouse. 
 This repository is dedicated to the installation scripts, APIs and documentation for special hosts intended to support [b2](https://github.com/yesbabylon/b2) hosts.
 
 Support host types:
