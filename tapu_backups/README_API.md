@@ -83,7 +83,7 @@ Only one token for an instance can be created at a time.
 
 ### POST _/instance/release-token_
 
-Release a token because the export or import of a backup is finished.
+Release a token, to use when the export or import of a backup is finished.
 It'll allow other backup operations to take place.
 
 #### Request Headers
