@@ -1,0 +1,19 @@
+@startuml backup-export
+
+b2 -> "tapu-backups": /token/create
+note right: creates a token and a temporary ftp user
+
+"tapu-backups" --> b2: token and ftp credentials
+
+b2 -> "tapu-backups": ftp connect
+
+b2 -[#blue]> "tapu-backups": <font color="blue">export backup</font>
+
+b2 -> "tapu-backups": ftp close
+
+b2 -> "tapu-backups": /token/release
+note right: deletes token and temporary ftp user
+
+"tapu-backups" --> b2: "token_released"
+
+@enduml

@@ -8,36 +8,41 @@ Support host types:
   - **sapu-stats** to retain log history and track instance statistics
   - **seru-admin** to manage the whole ecosystem of b2, backups and stats hosts
 
-<!--
-@startuml firstDiagram
+## Network architecture
 
-Alice -> Bob: Hello
-Bob -> Alice: Hi!
-	
-@enduml
--->
+![](doc/organization.png)
 
-![](firstDiagram.svg)
+## tapu-backups
 
-## System organization
-- **General recap:**
-    <div style="text-align:center"><img src="doc/organization.png"  alt="Organization"/></div>
+A tapu-backups host is meant to store backups of b2 hosts instances for future restoration of state.
 
-## Host Backups
+### Configuration
 
-- **Backup: export & import**
-    <div style="text-align:center"><img src="doc/hosts_message_summary_from_b2_to_backup.png"  alt="Backups"/></div>
+The `tapu-backups` host is configured with a `MAX_TOKEN` environment variable.
+It defines the maximum number of tokens available, limiting the number of simultaneous backup operations it can handle.
 
-- **Backup and Restore Process**
-    <div style="text-align:center"><img src="doc/backups_process.png"  alt="Backups process"/></div>
+By coordinating token management and connection credentials, the system ensures secure and efficient backups.
 
-## Host Stats
-<div style="text-align:center"><img src="doc/hosts_message_summary_from_b2_to_stats.png"  alt="Host messages summary"/></div>
+### Backup export
 
-## Host Admin
-- **B2 Host administration**
-    <div style="text-align:center"><img src="doc/hosts_message_summary_from_b2_to_admin.png"  alt="Host messages summary"/></div>
+A `b2` host can upload an instance backup to a configured `tapu-backups` host using an FTP connection.
 
-- **Backup Host administration**
-    <div style="text-align:center"><img src="doc/hosts_message_summary_from_admin_to_backups.png"  alt="Admin"/></div>
+#### Workflow
 
+![](doc/uml/backup-export.png)
+
+### Backup import
+
+A `b2` host can download an instance backup from a configured `tapu-backups` host using an FTP connection.
+
+#### Workflow
+
+![](doc/uml/backup-import.png)
+
+## sapu-stats
+
+IN PROGRESS
+
+## seru-admin
+
+IN PROGRESS
