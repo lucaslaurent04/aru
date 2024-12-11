@@ -8,6 +8,17 @@ Support host types:
   - **sapu-stats** to retain log history and track instance statistics
   - **seru-admin** to manage the whole ecosystem of b2, backups and stats hosts
 
+<!--
+@startuml firstDiagram
+
+Alice -> Bob: Hello
+Bob -> Alice: Hi!
+	
+@enduml
+-->
+
+![](firstDiagram.svg)
+
 ## System organization
 - **General recap:**
     <div style="text-align:center"><img src="doc/organization.png"  alt="Organization"/></div>
