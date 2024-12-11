@@ -4,8 +4,8 @@ First things first, arû is a Japanese word that means attic/warehouse.
 This repository is dedicated to the installation scripts, APIs and documentation of special hosts intended to support [b2](https://github.com/yesbabylon/b2) hosts.
 
 Support host types:
-  - **tapu-backups** to store instance backups
-  - **sapu-stats** to retain log history and track instance statistics
+  - **tapu-backups** to store instances backups
+  - **sapu-stats** to retain log history and track instances statistics
   - **seru-admin** to manage the whole ecosystem of b2, backups and stats hosts
 
 ## Network architecture
