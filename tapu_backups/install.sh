@@ -13,15 +13,15 @@ fi
 
 # Needed vars
 BACKUPS_DISK=""
-BACKUPS_DISK_MOUNT=""
+BACKUPS_PATH=""
 
 # Function to display help
 flags_help() {
     echo "Usage: script.sh [options]"
     echo "Options:"
-    echo "  --backup_disk,       -d <disk>  Specify backups disk name. (required)"
-    echo "  --backup_disk_mount, -m <path>  Specify backups disk mount directory name. (required)"
-    echo "  --help, -h                      Show help message."
+    echo "  --backup_disk,  -d <disk>  Specify backups disk name (e.g., /dev/sdb)."
+    echo "  --backup_path,  -p <path>  Specify backups disk directory path. (required) (e.g., /mnt/backups)"
+    echo "  --help, -h                 Show help message."
     [ "$1" = "error" ] && exit 1 || exit 0
 }
 
@@ -35,10 +35,10 @@ while [[ "$#" -gt 0 ]]; do
                 exit 1
             fi
             shift ;;
-        --backup_disk_mount|-m )
-            BACKUPS_DISK_MOUNT="$2"
-            if [[ -z "$BACKUPS_DISK_MOUNT" ]]; then
-                echo "Error: --backup_disk_mount requires a value."
+        --backup_path|-p )
+            BACKUPS_PATH="$2"
+            if [[ -z "$BACKUPS_PATH" ]]; then
+                echo "Error: --backup_path requires a value."
                 exit 1
             fi
             shift ;;
@@ -53,8 +53,7 @@ done
 
 # Array of required variables and their descriptions
 declare -A required_vars=(
-    ["BACKUPS_DISK"]="--backup_disk"
-    ["BACKUPS_DISK_MOUNT"]="--backup_disk_mount"
+    ["BACKUPS_PATH"]="--backup_path"
 )
 
 # Iterate over the required variables
@@ -84,7 +83,7 @@ fi
 # List of configuration variables and their values
 declare -A configs=(
     ["BACKUPS_DISK"]="$BACKUPS_DISK"
-    ["BACKUPS_DISK_MOUNT"]="$BACKUPS_DISK_MOUNT"
+    ["BACKUPS_PATH"]="$BACKUPS_PATH"
 )
 
 # Iterate over the configuration variables
@@ -118,20 +117,21 @@ apt-get install -y vnstat php-cli
 ### Mount backup disk ###
 #########################
 
-if ! mount | grep -q "on $BACKUPS_DISK_MOUNT "; then
-    # Create backups directory
-    mkdir $BACKUPS_DISK_MOUNT
+# Create backups directory, if does not exist
+mkdir -p $BACKUPS_PATH
 
-    # Format disk to ext filesystem, if it's not already the case
-    if ! blkid "$BACKUPS_DISK" | grep -q 'TYPE="ext4"'; then
-        mkfs -t ext4 $BACKUPS_DISK
+# Format and mount backup disk if defined
+if [ -n "$BACKUPS_DISK" ] && ! mount | grep -q "on $BACKUPS_PATH "; then
+    # Format disk to xfs filesystem, if it's not already the case
+    if ! blkid "$BACKUPS_DISK" | grep -q 'TYPE="xfs"'; then
+        mkfs.xfs -f "$BACKUPS_DISK"
     fi
 
     # Handle auto mount on startup
-    echo "$BACKUPS_DISK	$BACKUPS_DISK_MOUNT	ext4	defaults	0	0" >> /etc/fstab
+    echo "$BACKUPS_DISK	$BACKUPS_PATH	xfs	defaults	0	0" >> /etc/fstab
 
     # Mount disk
-    mount $BACKUPS_DISK_MOUNT
+    mount $BACKUPS_PATH
 fi
 
 

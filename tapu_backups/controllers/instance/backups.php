@@ -9,7 +9,7 @@
  */
 function instance_backups(array $data): array {
     // Retrieve the list files contained in a folder
-    $instance_backups = scandir(getenv('BACKUPS_DISK_MOUNT').'/'.$data['instance']);
+    $instance_backups = scandir(getenv('BACKUPS_PATH').'/'.$data['instance']);
     if($instance_backups === false) {
         throw new Exception("backups_not_found", 404);
     }

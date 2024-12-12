@@ -62,7 +62,7 @@ function instance_create_token(array $data): array {
     exec("echo '$username:$password' | sudo chpasswd");
 
     // Set the user's home directory
-    $home_directory = getenv('BACKUPS_DISK_MOUNT') . '/' . $username;
+    $home_directory = getenv('BACKUPS_PATH') . '/' . $username;
     exec("mkdir $home_directory");
     exec("usermod -d $home_directory $username");
 
