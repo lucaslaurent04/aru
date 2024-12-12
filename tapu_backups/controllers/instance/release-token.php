@@ -43,8 +43,8 @@ function instance_release_token(array $data): array {
     exec("userdel $username");
 
     // Remove token file
-    $token_file_path = TOKENS_DIR.'/'.$data['instance'].'.json';
-    exec("rm $token_file_path");
+    $token_file = TOKENS_DIR.'/'.$data['instance'].'.json';
+    unlink($token_file);
 
     return [
         'code' => 200,

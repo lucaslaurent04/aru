@@ -39,7 +39,7 @@ function release_expired_tokens(): array {
         exec("userdel {$token['instance']}");
 
         // Remove token
-        exec("rm $token_file");
+        unlink($token_file);
     }
 
     return [

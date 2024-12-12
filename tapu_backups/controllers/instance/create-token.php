@@ -21,9 +21,10 @@ function instance_create_token(array $data): array {
         throw new InvalidArgumentException("missing_instance", 400);
     }
 
+    $domain_name_pattern = '/^(?!\-)(?:[a-zA-Z0-9\-]{1,63}\.)+[a-zA-Z]{2,}$/';
     if(
         !is_string($data['instance']) || empty($data['instance']) || strlen($data['instance']) > 32
-        || preg_match('/^(?!\-)(?:[a-zA-Z0-9\-]{1,63}\.)+[a-zA-Z]{2,}$/', $data['instance']) === 0
+        || preg_match($domain_name_pattern, $data['instance']) === 0
         || $data['instance'] !== basename($data['instance'])
     ) {
         throw new InvalidArgumentException("invalid_instance", 400);
