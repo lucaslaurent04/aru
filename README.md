@@ -16,7 +16,7 @@ The aru repository must be placed in the `/root` folder of your server.
 
 ![](doc/network-architecture.drawio.png)
 
-Multiple tapu-backups, sapu-stats and b2 hosts are allowed, but there should be only one seru-admin host for management.
+The presence of multiple tapu-backups, sapu-stats and b2 hosts is possible, but there should be only one seru-admin host for management.
 
 The b2 hosts should be the only hosts publicly accessible from the internet. Basically, they expose the eQual instances to the world.
 
