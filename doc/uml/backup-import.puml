@@ -1,6 +1,6 @@
 @startuml backup-import
 
-b2 -> "tapu-backups": /token/create
+b2 -> "tapu-backups": /instance/create-token
 note right: creates a token and a temporary ftp user
 
 "tapu-backups" --> b2: token and ftp credentials
@@ -11,7 +11,7 @@ b2 -> "tapu-backups": ftp connect
 
 b2 -> "tapu-backups": ftp close
 
-b2 -> "tapu-backups": /token/release
+b2 -> "tapu-backups": /instance/release-token
 note right: deletes token and temporary ftp user
 
 "tapu-backups" --> b2: "token_released"
