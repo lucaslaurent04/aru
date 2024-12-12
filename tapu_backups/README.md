@@ -34,7 +34,7 @@ This script must be executed with **root privileges**.
 
 ### Cron
 
-The `./cron.php is run evey minute` it will execute a series of jobs. It will call a controller depending on its configured crontab.
+The `./cron.php is executed evey minute`, it executes a series of jobs. It calls a controller depending on its configured crontab.
 
 **Jobs**:
 
