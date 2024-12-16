@@ -30,6 +30,11 @@ function instance_create_token(array $data): array {
         throw new InvalidArgumentException("invalid_instance", 400);
     }
 
+    $no_delay = $data['no_delay'] ?? false;
+    if(!is_bool($no_delay)) {
+        throw new InvalidArgumentException("invalid_no_delay", 400);
+    }
+
     $backups_path = getenv('BACKUPS_PATH') ?: false;
     if(!$backups_path) {
         throw new Exception("BACKUPS_PATH_not_configured", 500);
@@ -49,10 +54,18 @@ function instance_create_token(array $data): array {
         throw new Exception("max_token_not_numeric", 500);
     }
 
-    // Limit the simultaneous backup operations
-    $max_token = intval($max_token);
-    if(count($tokens) >= $max_token) {
-        throw new InvalidArgumentException("max_token_reached_try_later", 400);
+    $max_retries = 10;
+    $retry_count = 0;
+    while(count($tokens) >= $max_token) {
+        if($retry_count >= $max_retries || $no_delay) {
+            throw new InvalidArgumentException("max_token_reached_retry_limit", 400);
+        }
+
+        sleep(120); // Pause before retrying
+        $retry_count++;
+
+        // Refresh token list
+        $tokens = glob(TOKENS_DIR . '/*.json');
     }
 
     // Create token
