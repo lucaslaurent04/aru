@@ -72,6 +72,8 @@ function instance_create_token(array $data): array {
     $token = bin2hex(random_bytes(16));
     $created_at = date('Y-m-d H:i:s');
 
+    // TODO: sign token with private key so b2 host can check that it is the legitimate backup host
+
     // Add the creation datetime and instance
     $token_data = compact('token', 'created_at', 'instance');
 
