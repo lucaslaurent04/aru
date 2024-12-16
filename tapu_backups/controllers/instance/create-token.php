@@ -82,10 +82,8 @@ function instance_create_token(array $data): array {
     $username = $data['instance'];
     $password = bin2hex(random_bytes(16));
 
+    // Do not allow user to use interactive console, only FTP
     exec("useradd -m -s /usr/sbin/nologin $username");
-
-    // Allow FTP access to nologin newly created user
-    // exec("usermod -s /bin/bash $username");
 
     // Set the password for the user
     exec("echo '$username:$password' | sudo chpasswd");

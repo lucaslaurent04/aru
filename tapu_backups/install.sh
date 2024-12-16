@@ -162,6 +162,9 @@ apt-get install -y vsftpd
 mv /etc/vsftpd.conf /etc/vsftpd.conf.orig
 cp "$INSTALL_DIR"/conf/etc/vsftpd.conf /etc/vsftpd.conf
 
+# Allow user to connect with nologin for FTP get and put
+echo "/usr/sbin/nologin" >> /etc/shells
+
 # Restart FTP service
 systemctl restart vsftpd
 
