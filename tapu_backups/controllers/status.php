@@ -56,7 +56,7 @@ function status(): array {
         'stats' => [
             'net' => [
                 'description' => "monthly network volume",
-                'command'     => 'vnstat -i ' . $interface . ' -m | tail -3 | head -1',
+                'command'     => 'vnstat -i '.$interface.' -m | tail -3 | head -1',
                 'adapt'       => function ($res) {
                     if(strpos($res, '|') === false) {
                         return [
@@ -76,14 +76,14 @@ function status(): array {
                 'description' => "average CPU load (%) since last reboot",
                 'command'     => 'vmstat | tail -1| awk \'{print $15}\'',
                 'adapt'       => function ($res) {
-                    return (100 - intval($res)) . '%';
+                    return (100 - intval($res)).'%';
                 }
             ],
             'uptime' => [
                 'description' => "average CPU load (%) since last reboot",
                 'command'     => 'cat /proc/uptime | awk \'{print $1}\'',
                 'adapt'       => function ($res) {
-                    return (intval($res / 86400) + 1) . 'days';
+                    return (intval($res / 86400) + 1).'days';
                 }
             ],
             'backups_disk' => [
@@ -113,7 +113,7 @@ function status(): array {
                 'description' => "used CPU (%)",
                 'command'     => 'top -bn2 -d 0.1 | grep "Cpu" | tail -1 | awk \'{print $2}\'',
                 'adapt'       => function ($res) {
-                    return $res . '%';
+                    return $res.'%';
                 }
             ],
             'disk_use' => [
@@ -139,7 +139,7 @@ function status(): array {
             ],
             'backup_tokens_qty' => [
                 'description' => "total number of currently issued backup tokens",
-                'command'     => 'find ' . BASE_DIR . '/tokens -type f ! -name ".gitignore" | wc -l',
+                'command'     => 'find '.BASE_DIR.'/tokens -type f ! -name ".gitignore" | wc -l',
                 'adapt'       => function ($res) {
                     return $res;
                 }
@@ -182,7 +182,7 @@ function status(): array {
                     if($res > 1000) {
                         $res /= 1000;
                     }
-                    return round($res, 1) . 'GHz';
+                    return round($res, 1).'GHz';
                 }
             ],
             'disk' => [
@@ -194,7 +194,7 @@ function status(): array {
             ],
             'ip_private' => [
                 'description' => "main IP address",
-                'command'     => 'ip -4 addr show ' . $interface . ' | grep \'inet \' | awk \'{print $2}\'',
+                'command'     => 'ip -4 addr show '.$interface.' | grep \'inet \' | awk \'{print $2}\'',
                 'adapt'       => function ($res) {
                     return $res;
                 }
