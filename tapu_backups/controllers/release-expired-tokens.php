@@ -21,8 +21,9 @@ function release_expired_tokens(): array {
     foreach($token_files as $token_file) {
         $token = json_decode(file_get_contents($token_file), true);
 
-        $one_hour = (int) (getenv('TOKEN_VALIDITY') ?: 3600);
-        if(strtotime($token['created_at']) + $one_hour <= time()) {
+        $one_hour = 3600;
+        $token_validity_in_seconds = (int) (getenv('TOKEN_VALIDITY') ?: $one_hour);
+        if(strtotime($token['created_at']) + $token_validity_in_seconds <= time()) {
             $map_expired_tokens[$token_file] = $token;
         }
     }

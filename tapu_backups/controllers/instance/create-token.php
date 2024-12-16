@@ -30,12 +30,28 @@ function instance_create_token(array $data): array {
         throw new InvalidArgumentException("invalid_instance", 400);
     }
 
+    $backups_path = getenv('BACKUPS_PATH') ?: false;
+    if(!$backups_path) {
+        throw new Exception("BACKUPS_PATH_not_configured", 500);
+    }
+
+    if(!is_dir($backups_path)) {
+        throw new Exception("BACKUPS_PATH_invalid", 500);
+    }
+
     $instance = $data['instance'];
 
     // Retrieve the tokens
-    $tokens = glob(TOKENS_DIR . '/*.json');
+    $tokens = glob(TOKENS_DIR.'/*.json');
 
-    if(count($tokens) >= intval(getenv('MAX_TOKEN'))) {
+    $max_token = getenv('MAX_TOKEN') ?: '3';
+    if(!is_numeric($max_token)) {
+        throw new Exception("max_token_not_numeric", 500);
+    }
+
+    // Limit the simultaneous backup operations
+    $max_token = intval($max_token);
+    if(count($tokens) >= $max_token) {
         throw new InvalidArgumentException("max_token_reached_try_later", 400);
     }
 
@@ -62,7 +78,7 @@ function instance_create_token(array $data): array {
     exec("echo '$username:$password' | sudo chpasswd");
 
     // Set the user's home directory
-    $home_directory = getenv('BACKUPS_PATH') . '/' . $username;
+    $home_directory = $backups_path.'/'.$username;
     exec("mkdir $home_directory");
     exec("usermod -d $home_directory $username");
 

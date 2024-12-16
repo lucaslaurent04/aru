@@ -45,6 +45,11 @@ function status(): array {
         throw new Exception("unable_to_retrieve_main_interface", 500);
     }
 
+    $backups_path = getenv('BACKUPS_PATH') ?: false;
+    if(!$backups_path) {
+        throw new Exception("BACKUPS_PATH_not_configured", 500);
+    }
+
     $interface = trim($interface, ':');
 
     $commands = [
@@ -83,7 +88,7 @@ function status(): array {
             ],
             'backups_disk' => [
                 'description' => "percentage of usage backups disk",
-                'command'     => 'df -h ' . getenv('BACKUPS_PATH') . ' | awk \'NR==2 {print $5}\'',
+                'command'     => 'df -h ' . $backups_path . ' | awk \'NR==2 {print $5}\'',
                 'adapt'       => function ($res) {
                     return $res;
                 }
