@@ -6,7 +6,7 @@ The tapu-backups host stores the backups of b2 hosts instances.
 
 ### POST _/status_
 
-Get the status of the b2 host.
+Get the status of the backups host.
 
 #### Request Headers
 
