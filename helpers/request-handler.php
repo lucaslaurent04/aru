@@ -10,7 +10,7 @@
  *     data: string
  * } $request
  * @param string[] $allowed_routes
- * @return array{body: string|array, code: string}
+ * @return array{body: string|array, code: int}
  */
 function handle_request(array $request, array $allowed_routes): array {
     try {
@@ -41,7 +41,7 @@ function handle_request(array $request, array $allowed_routes): array {
 
         $handler = trim($request['uri'], '/');
 
-        $controller_file = CONTROLLERS_DIR . '/' . $handler . '.php';
+        $controller_file = CONTROLLERS_DIR."/$handler.php";
 
         // Check if the controller or script file exists
         if(!file_exists($controller_file)) {
@@ -58,7 +58,7 @@ function handle_request(array $request, array $allowed_routes): array {
             throw new Exception("missing_method", 501);
         }
 
-        load_env(BASE_DIR . '/.env');
+        load_env(BASE_DIR.'/.env');
 
         // Respond with the returned body and code
         ['body' => $body, 'code' => $code] = $handler_method_name($data);
