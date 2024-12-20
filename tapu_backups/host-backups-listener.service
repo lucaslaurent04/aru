@@ -4,10 +4,12 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/php -S 0.0.0.0:8000 -t /root/aru/tapu_backups /root/aru/tapu_backups/listener.php >> host-backups-listener.log 2>&1
+ExecStart=/usr/bin/php -S 0.0.0.0:8000 -t /root/aru/tapu_backups /root/aru/tapu_backups/listener.php
 WorkingDirectory=/root/aru/tapu_backups
 Restart=always
 SyslogIdentifier=host-backups-listener
+StandardOutput=append:/root/aru/tapu_backups/logs/host-backups-listener-output.log
+StandardError=append:/root/aru/tapu_backups/logs/host-backups-listener-error.log
 
 [Install]
 WantedBy=multi-user.target
