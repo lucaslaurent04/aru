@@ -54,7 +54,6 @@ function status(): array {
     $interface = trim($interface, ':');
 
     $commands = [
-        'type' => 'tapu_backups',
         'stats' => [
             'net' => [
                 'description' => "monthly network volume",
@@ -212,6 +211,7 @@ function status(): array {
         }
     }
 
+    $result['type'] = 'tapu_backups';
     $result['config']['env'] = getenv();
 
     return [
