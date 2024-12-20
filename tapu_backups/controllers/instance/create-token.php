@@ -92,7 +92,12 @@ function instance_create_token(array $data): array {
 
     // Set the user's home directory
     $home_directory = $backups_path.'/'.$username;
-    exec("mkdir $home_directory");
+    if(!file_exists($home_directory)) {
+        exec("mkdir $home_directory");
+    }
+    elseif(!is_dir($home_directory)) {
+        throw new Exception("file_blocking_home_directory_creation", 500);
+    }
     exec("usermod -d $home_directory $username");
 
     // Set proper permissions
